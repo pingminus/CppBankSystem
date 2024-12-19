@@ -89,11 +89,11 @@ void showWithdrawAndDepositMenu(const std::string& username) {
                 std::cout << "Amount to Transfer: ";
                 std::cin >> TransferMoney;
                 
-                
+                std::cout << "\n";
                 Transfer(username, receiver, TransferMoney);
                 
                 
-
+                
                 LoadingScreen(60);
                 
                 
