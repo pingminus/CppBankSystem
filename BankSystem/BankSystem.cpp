@@ -69,10 +69,10 @@ int main() {
 
             // register the user
             if (RegisterUser(username, password)) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(1400));
+                LoadingScreen(20);
             }
             else {
-                std::this_thread::sleep_for(std::chrono::milliseconds(1400));
+                LoadingScreen(20);
             }
 
 
@@ -85,14 +85,14 @@ int main() {
 
             // log in the user
             if (LoginUser(username, password)) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(1400)); // Pause for feedback
+                LoadingScreen(20);
 
                 
                 checkValidUser(username); //If user is new create a bank account
                 showWithdrawAndDepositMenu(username);
             }
             else {
-                std::this_thread::sleep_for(std::chrono::milliseconds(1400)); // Pause for feedback
+                LoadingScreen(20);
             }
 
         }

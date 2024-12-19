@@ -2,10 +2,10 @@
 #include "iostream"
 #include <conio.h>
 #include <Windows.h>
-
+#include <thread>
+#include <vector>
 
 std::unordered_map<std::string, int> BankDatabase;
-
 // Check if user exist
 void checkValidUser(const std::string& username) {
 	if (BankDatabase.find(username) == BankDatabase.end()) {
@@ -19,7 +19,7 @@ void Transaction(const int Money, const std::string& username){
 
 void showWithdrawAndDepositMenu(const std::string& username) {
 
-	std::string options[] = { "withdraw","deposit" ,"exit"};
+	std::string options[] = { "withdraw","deposit" , "Transfer","exit"};
 	int currentchoice = 0;
     int choice;
 
@@ -37,7 +37,7 @@ void showWithdrawAndDepositMenu(const std::string& username) {
         std::cout << "\n";
 
 
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < 4; ++i) {
             if (i == currentchoice) {
                 std::cout << ">";
 
@@ -48,13 +48,13 @@ void showWithdrawAndDepositMenu(const std::string& username) {
         }
         char ch = _getch();
         if (ch == 72) {         //Up Arrow 
-            currentchoice = (currentchoice - 1 + 3) % 3;
+            currentchoice = (currentchoice - 1 + 4) % 4;
         }
         else if (ch == 80) {   //Down Arrow
-               currentchoice = (currentchoice + 1) % 3;
+               currentchoice = (currentchoice + 1) % 4;
         }
         else if (ch == '\t') {  // Tab key (ASCII 9)
-            currentchoice = (currentchoice + 1) % 3;  // Move to the next option
+            currentchoice = (currentchoice + 1) % 4;  // Move to the next option
         }
         else if (ch == 13) {    //Enter
             choice = currentchoice + 1;
@@ -82,12 +82,79 @@ void showWithdrawAndDepositMenu(const std::string& username) {
                 Transaction(WithdrawAndDepositMoney, username);
             }
             if (choice == 3) {
+                int TransferMoney;
+                std::string receiver;
+                std::cout << "Recipient Account name: ";
+                std::cin >> receiver;
+                std::cout << "Amount to Transfer: ";
+                std::cin >> TransferMoney;
+                
+                
+                Transfer(username, receiver, TransferMoney);
+                
+                
+
+                LoadingScreen(60);
+                
+                
+                    
+            }
+            if (choice == 4) {
                 done = true;
             }
         }
     }
-    
-        
- 
+}
+void LoadingScreen(int length) {
 
+    const int total_length = 28;  // Total length of the line
+    std::string line(total_length, '-');  // Create a line filled with dashes
+
+    // Print the initial line
+    std::cout << line << std::flush;
+
+    for (int i = 0; i < total_length; ++i) {
+        // Overwrite the i-th character with an equals sign
+        line[i] = '=';
+
+        // Move the cursor back to the beginning of the line
+        std::cout << "\r" << line << std::flush;
+
+        // Add a small delay for smoothness
+        std::this_thread::sleep_for(std::chrono::milliseconds(length)); // Adjust for speed
+    }
+
+    std::cout << "\n";  
+}
+bool Transfer(const std::string& username, const std::string& receiver, const int money) {
+    // Check if the transfer amount is valid
+    if (money <= 0) {
+        std::cout << "Invalid transaction: Amount must be greater than zero.\n";
+        return false;
+    }
+
+    // Check if the user has enough balance
+    if (BankDatabase[username] < money) {
+        std::cout << "Insufficient funds in your account.\n";
+        return false;
+    }
+
+    // Check if the receiver exists in the database
+    if (BankDatabase.find(receiver) == BankDatabase.end()) {
+        std::cout << "Receiver does not exist.\n";
+        return false;
+    }
+
+    // Check if the user is trying to transfer money to themselves
+    if (username == receiver) {
+        std::cout << "You cannot transfer money to your own account.\n";
+        return false;
+    }
+
+    // Perform the transfer if all checks pass
+    BankDatabase[username] -= money;
+    BankDatabase[receiver] += money;
+
+    std::cout << "Transfer successful! " << money << "$ has been transferred to " << receiver << ".\n";
+    return true;
 }
