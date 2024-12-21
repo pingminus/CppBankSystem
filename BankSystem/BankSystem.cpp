@@ -17,9 +17,10 @@ void displayMenu(int& choice) {
     string options[] = { "Register", "Login", "Exit" }; // Menu options
     int currentChoice = 0; // Currently highlighted option
     bool done = false;
-
     while (!done) {
         system("cls");  // Clear the console screen
+        std::cout << "Welcome to pingplus C++ Bank!" << "\n";
+        std::cout << "\n";
 
         // Display menu options with the current selection highlighted
         for (int i = 0; i < 3; ++i) {
@@ -27,7 +28,7 @@ void displayMenu(int& choice) {
                 cout << "> "; // Highlight the current option
             }
             else {
-                cout << "  ";
+                cout << " ";
             }
             cout << options[i] << endl;
         }
@@ -56,6 +57,8 @@ int main() {
     string username, password;
     int choice = 0;
     RegisterUser("dev", "admin");
+    checkValidUser("dev");
+
     while (true) {
         // Display menu and get user choice
         displayMenu(choice);
