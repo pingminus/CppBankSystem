@@ -54,7 +54,7 @@ void showWithdrawAndDepositMenu(const std::string& username) {
         std::cout << "\n";
 
 
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i < 5; ++i) {
             if (i == currentchoice) {
                 std::cout << ">";
 
