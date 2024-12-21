@@ -71,7 +71,7 @@ void showWithdrawAndDepositMenu(const std::string& username) {
                currentchoice = (currentchoice + 1) % 5;
         }
         else if (ch == '\t') {  // Tab key (ASCII 9)
-            currentchoice = (currentchoice + 1) % 5;  // Move to the next option
+            currentchoice = (currentchoice + 1) % 4;  // Move to the next option
         }
         else if (ch == 13) {    //Enter
             choice = currentchoice + 1;
