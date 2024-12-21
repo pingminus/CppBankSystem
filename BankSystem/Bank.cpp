@@ -6,20 +6,36 @@
 #include <vector>
 
 std::unordered_map<std::string, int> BankDatabase;
+std::unordered_map<std::string, std::vector<std::string>> TransactionHistories;
+        
 // Check if user exist
 void checkValidUser(const std::string& username) {
 	if (BankDatabase.find(username) == BankDatabase.end()) {
 		BankDatabase[username] = 1000;
+		TransactionHistories[username] = {};
 	}
 }
 // Handle Transactions
 void Transaction(const int Money, const std::string& username){
     BankDatabase[username] += Money;
+	TransactionHistories[username].push_back(std::to_string(Money));
+}
+void TransactionHistory(const std::string& username) {
+    std::cout << "\n";
+
+    std::cout << "-------------------\n";
+	std::cout << "Transaction History\n";
+	std::cout << "-------------------\n";
+	for (const auto& transaction : TransactionHistories[username]) {
+        std::cout << transaction << "\n";
+        
+	}
+	system("pause");
 }
 
 void showWithdrawAndDepositMenu(const std::string& username) {
 
-	std::string options[] = { "withdraw","deposit" , "Transfer","exit"};
+	std::string options[] = { "withdraw","deposit" , "Transfer","Transaction history","exit"};
 	int currentchoice = 0;
     int choice;
 
@@ -29,9 +45,10 @@ void showWithdrawAndDepositMenu(const std::string& username) {
     while (!done) {
 
         system("cls"); 
-        
-        
-        std::cout << "Your Bank Account stores: \n";
+        std::cout << "Welcome " << username << std::endl;
+        std::cout << "-------------------------" << std::endl;
+
+        std::cout << "Your Bank Account stores:\n";
         std::cout << BankDatabase[username] << "$";
         std::cout << "\n";
         std::cout << "\n";
@@ -48,13 +65,13 @@ void showWithdrawAndDepositMenu(const std::string& username) {
         }
         char ch = _getch();
         if (ch == 72) {         //Up Arrow 
-            currentchoice = (currentchoice - 1 + 4) % 4;
+            currentchoice = (currentchoice - 1 + 5) % 5;
         }
         else if (ch == 80) {   //Down Arrow
-               currentchoice = (currentchoice + 1) % 4;
+               currentchoice = (currentchoice + 1) % 5;
         }
         else if (ch == '\t') {  // Tab key (ASCII 9)
-            currentchoice = (currentchoice + 1) % 4;  // Move to the next option
+            currentchoice = (currentchoice + 1) % 5;  // Move to the next option
         }
         else if (ch == 13) {    //Enter
             choice = currentchoice + 1;
@@ -100,6 +117,9 @@ void showWithdrawAndDepositMenu(const std::string& username) {
                     
             }
             if (choice == 4) {
+				TransactionHistory(username);
+            }
+            if (choice == 5) {
                 done = true;
             }
         }

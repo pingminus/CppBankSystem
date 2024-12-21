@@ -55,7 +55,7 @@ void displayMenu(int& choice) {
 int main() {
     string username, password;
     int choice = 0;
-
+    RegisterUser("dev", "admin");
     while (true) {
         // Display menu and get user choice
         displayMenu(choice);
