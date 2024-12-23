@@ -173,6 +173,7 @@ bool Transfer(const std::string& username, const std::string& receiver, const in
 
     // Perform the transfer if all checks pass
     TransactionHistories[username].push_back(std::to_string(-money));
+    TransactionHistories[receiver].push_back(std::to_string(money));
     BankDatabase[username] -= money;
     BankDatabase[receiver] += money;
 
