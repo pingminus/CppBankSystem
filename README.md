@@ -5,7 +5,7 @@ This is a simple C++ program that implements a basic bank system login. The prog
   <img src="https://github.com/user-attachments/assets/98e4db7b-7001-4f41-88c0-24f514484c01" alt="Bank System" width="500"/>
 </p>
 #  Requirements
-C++ compiler + Windows
+C++ compiler
 
 
 
