@@ -1,7 +1,6 @@
 #include "Bank.h"
 #include "iostream"
 #include <conio.h>
-#include <Windows.h>
 #include <thread>
 #include <vector>
 
@@ -165,18 +164,20 @@ bool Transfer(const std::string& username, const std::string& receiver, const in
         return false;
     }
 
-    // Check if the user is trying to transfer money to themselves
+    // Check if the user is trying to transfer money to themselves  
     if (username == receiver) {
         std::cout << "You cannot transfer money to your own account.\n";
         return false;
     }
 
     // Perform the transfer if all checks pass
-    TransactionHistories[username].push_back(std::to_string(-money));
-    TransactionHistories[receiver].push_back(std::to_string(money));
+     //add transaction history
     BankDatabase[username] -= money;
+    TransactionHistories[username].push_back(std::to_string(-money));
     BankDatabase[receiver] += money;
+	TransactionHistories[receiver].push_back(std::to_string(money));
 
     std::cout << "Transfer successful! " << money << "$ has been transferred to " << receiver << ".\n";
     return true;
 }
+//Login
