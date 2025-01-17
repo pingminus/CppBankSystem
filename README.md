@@ -12,6 +12,6 @@ C++ compiler
 
 ```bash
 git clone https://github.com/yourusername/banksystem-login.git
-cd banksystem-login
-g++ -o bank_login bank_login.cpp
-./bank_login
+cd BankSystem
+g++ *.cpp -o Main
+Main
