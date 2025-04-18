@@ -3,6 +3,7 @@
 #include <conio.h>
 #include <thread>
 #include <vector>
+#include <Windows.h>
 
 std::unordered_map<std::string, int> BankDatabase;
 std::unordered_map<std::string, std::vector<std::string>> TransactionHistories;
@@ -63,16 +64,20 @@ void showWithdrawAndDepositMenu(const std::string& username) {
             std::cout <<" " << options[i] << std::endl;
         }
         char ch = _getch();
-        if (ch == 72) {         //Up Arrow 
+        if (ch == 72) {     
+            Beep(1000, 100);
             currentchoice = (currentchoice - 1 + 5) % 5;
         }
         else if (ch == 80) {   //Down Arrow
+            Beep(1000, 100);
                currentchoice = (currentchoice + 1) % 5;
         }
         else if (ch == '\t') {  // Tab key (ASCII 9)
-            currentchoice = (currentchoice + 1) % 4;  // Move to the next option
+            Beep(1000, 100);
+            currentchoice = (currentchoice + 1) % 5;  // Move to the next option
         }
         else if (ch == 13) {    //Enter
+            Beep(800, 80);
             choice = currentchoice + 1;
             int WithdrawAndDepositMoney = 0;
 

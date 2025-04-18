@@ -1,76 +1,78 @@
-
-#include <iostream>;
-#include <unordered_map>;
+#include <iostream>
+#include <unordered_map>
 #include "AuthSystem.h"
+#include "Bank.h"
 #include <string>
 #include <conio.h>
 #include <Windows.h>
-#include "Bank.h"
 #include <chrono>
 #include <thread>
+#include <algorithm>
+using namespace std;
 
-
-
-
+// Simplified GetInput function without beep and input hiding
+string GetInput() {
+    string input;
+    getline(cin, input);  // Simple cin input instead of _getch()
+    return input;
+}
 
 void displayMenu(int& choice) {
-    string options[] = { "Register", "Login", "Exit" }; // Menu options
-    int currentChoice = 0; // Currently highlighted option
+    string options[] = { "Register", "Login", "Exit" };
+    int currentChoice = 0;
     bool done = false;
-    while (!done) {
-        system("cls");  // Clear the console screen
-        std::cout << "Welcome to pingplus C++ Bank!" << "\n";
-        std::cout << "\n";
 
-        // Display menu options with the current selection highlighted
+    while (!done) {
+        system("cls");
+        cout << "Welcome to pingplus C++ Bank!" << "\n\n";
+
         for (int i = 0; i < 3; ++i) {
-            if (i == currentChoice) {
-                cout << "> "; // Highlight the current option
-            }
-            else {
-                cout << " ";
-            }
+            if (i == currentChoice)
+                cout << "> ";
+            else
+                cout << "  ";
             cout << options[i] << endl;
         }
 
-        char ch = _getch(); // Capture user input
+        char ch = _getch();
 
-        // Navigate the menu based on user input
-        if (ch == 72) {         // Up Arrow
+        if (ch == 72) { // Up Arrow
             currentChoice = (currentChoice - 1 + 3) % 3;
+            Beep(1000, 100); // Beep on arrow key up
         }
-        else if (ch == 80) {   // Down Arrow
+        else if (ch == 80) { // Down Arrow
             currentChoice = (currentChoice + 1) % 3;
+            Beep(1000, 100); // Beep on arrow key down
         }
-        else if (ch == '\t') {  // Tab key
+        else if (ch == '\t') { // Tab key
             currentChoice = (currentChoice + 1) % 3;
+            Beep(1000, 100); // Beep on tab key
         }
-        else if (ch == 13) {    // Enter key
-            choice = currentChoice + 1; // Set choice based on the selection
-            done = true; // Exit the menu loop
+        else if (ch == 13) { // Enter key
+            Beep(800, 80); // Beep on enter key
+            choice = currentChoice + 1;
+            done = true;
         }
     }
 }
 
-// Main program
 int main() {
     string username, password;
     int choice = 0;
+
     RegisterUser("dev", "admin");
     checkValidUser("dev");
 
     while (true) {
-        // Display menu and get user choice
         displayMenu(choice);
 
-        // Handle user choice
         if (choice == 1) { // Register
             cout << "\nEnter username: ";
-            cin >> username;
-            cout << "Enter password: ";
-            cin >> password;
+            username = GetInput();
 
-            // register the user
+            cout << "Enter password: ";
+            password = GetInput();
+
             if (RegisterUser(username, password)) {
                 LoadingScreen(20);
             }
@@ -78,20 +80,17 @@ int main() {
                 LoadingScreen(20);
             }
 
-
         }
         else if (choice == 2) { // Login
             cout << "\nEnter username: ";
-            cin >> username;
-            cout << "Enter password: ";
-            cin >> password;
+            username = GetInput();
 
-            // log in the user
+            cout << "Enter password: ";
+            password = GetInput();
+
             if (LoginUser(username, password)) {
                 LoadingScreen(20);
-
-                
-                checkValidUser(username); //If user is new create a bank account
+                checkValidUser(username);
                 showWithdrawAndDepositMenu(username);
             }
             else {
@@ -101,7 +100,7 @@ int main() {
         }
         else if (choice == 3) { // Exit
             cout << "\nExiting...\n";
-            break; // Exit the program
+            break;
         }
         else {
             cout << "\nInvalid choice. Try again.\n";
