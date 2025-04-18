@@ -84,7 +84,6 @@ int main() {
         else if (choice == 2) { // Login
             cout << "\nEnter username: ";
             username = GetInput();
-
             cout << "Enter password: ";
             password = GetInput();
 
